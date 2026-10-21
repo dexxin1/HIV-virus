@@ -32,14 +32,14 @@ igv: all
 $(FASTA_DIR) $(GFF_DIR):
 	mkdir -p $@
 
-# --- FASTA ---
+# ---- FASTA ----
 $(FASTA): | $(FASTA_DIR)
 	bio fetch $(ACC) --format fasta > $@
 
 $(FASTA_IDX): $(FASTA)
 	samtools faidx $<
 
-# --- GFF ---
+# ---- GFF ----
 # Order-only dependency on the FASTA keeps the two NCBI requests sequential.
 $(GFF_RAW): | $(GFF_DIR) $(FASTA)
 	bio fetch $(ACC) --format gff > $@.tmp
