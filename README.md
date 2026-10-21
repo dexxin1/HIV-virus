@@ -68,7 +68,7 @@ $(FASTA_DIR) $(GFF_DIR):
 
 ### Import FASTA files 
 Necessary pre-requisites: FASTA folder created \
-FASTA_IDX is the indexed version of the FASTA file. Records each sequence's name, length and line width. the `.fai` file needs to be in the same folder as the `.fna` file. The `.fna` file will have the actual sequences and IGV can use the `.fai` file for the table of names and lengths
+FASTA_IDX is the indexed version of the FASTA file. Records each sequence's name, length and line width. the `.fai` file needs to be in the same folder as the `.fna` file. The `.fna` file will have the actual sequences and IGV can use the `.fai` file for the table of names and lengths.
 ```
 # --- FASTA ---
 $(FASTA): | $(FASTA_DIR)
@@ -76,6 +76,15 @@ $(FASTA): | $(FASTA_DIR)
 
 $(FASTA_IDX): $(FASTA)
 	samtools faidx $<
+```
+
+### Import GFF files
+
+```
+# ---- GFF ----
+# Order-only dependency on the FASTA keeps the two NCBI requests sequential.
+$(GFF_RAW): | $(GFF_DIR) $(FASTA)
+	bio fetch $(ACC) --format gff > $@
 ```
 
 
