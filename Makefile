@@ -42,8 +42,7 @@ $(FASTA_IDX): $(FASTA)
 # ---- GFF ----
 # Order-only dependency on the FASTA keeps the two NCBI requests sequential.
 $(GFF_RAW): | $(GFF_DIR) $(FASTA)
-	bio fetch $(ACC) --format gff > $@.tmp
-	mv $@.tmp $@
+	bio fetch $(ACC) --format gff > $@
 
 # Tabix needs a coordinate-sorted, BGZF-compressed file: headers first,
 # then features sorted by sequence name and start position.
